@@ -31,7 +31,7 @@ function App() {
   }, [score]);
 
   return (
-    <div className="h-screen  ">
+    <div className="card-container  ">
       {isGameOver ? "GAME OVER" : ""}
       {players.map((player) => (
         <Player
@@ -66,22 +66,24 @@ function Player({ player, setScore, score, isGameOver }) {
 
   return (
     <div className="flex justify-start flex-col items-center bg-base-300  flex-grow w-screen h-1/3">
-      <div className="p-3  w-full flex-grow flex flex-row  justify-center items-center ">
-        <div className="w-full gap-4 bg-base-100  shadow-lg rounded-3xl flex-col justify-center items-center  h-full flex ">
-          <div className="text-2xl">{player.name}</div>
-          <div className="text-6xl font-bold">
-            {score.length > 0 && calcScore(score)}
+      <div className="p-3 w-full flex-grow flex flex-row justify-center items-center ">
+        <div className="w-full py-2 gap-4 bg-base-100  shadow-lg rounded-3xl  justify-center items-center   h-full flex ">
+          <div className="  w-1/3 flex h-full flex-col justify-center items-center">
+            <div className="text-2xl">{player.name}</div>
+            <div className="text-6xl font-bold">
+              {score.length > 0 && calcScore(score)}
+            </div>
           </div>
-          <div className="btn-group">
+          <div className="btn-group  w-2/3 h-full  flex justify-center items-center gap-2">
             <button
               disabled={isGameOver}
               onClick={() => handleScoreChange(1)}
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg h-20 w-24"
             >
               + 1
             </button>
             <button
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg h-20 w-24"
               onClick={() => handleScoreChange(2)}
             >
               + 2
