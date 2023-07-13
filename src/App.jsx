@@ -8,6 +8,7 @@ function App() {
     { id: 2, name: "annie", score: 0 },
   ]);
   const [score, setScore] = useState(players);
+  const [showPegging, setShowPegging] = useState(true);
   const [isGameOver, setIsGameOver] = useState(false);
 
   const checkGameStatus = () => {
@@ -39,21 +40,35 @@ function App() {
           setScore={setScore}
           score={score}
           isGameOver={isGameOver}
+          showPegging={showPegging}
+          setShowPegging={setShowPegging}
         />
       ))}
       {isGameOver ? "GAME OVER" : ""}
-      <ScoreBoard players={players} score={score} setScore={setScore} />
+      <ScoreBoard
+        players={players}
+        score={score}
+        setScore={setScore}
+        showPegging={showPegging}
+        setShowPegging={setShowPegging}
+      />
     </div>
   );
 }
 
-function Player({ player, setScore, score, isGameOver }) {
-  const numbers = [
-    3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  ];
+function Player({ player, setScore, score, isGameOver, showPegging }) {
+  const [typedScore, setTypedScore] = useState(0);
 
   const handleScoreChange = (num) => {
+    console.log(num);
+
     const scoreObj = { ...player, score: num };
+    setScore([...score, scoreObj]);
+  };
+
+  const handleTypedScoreChange = () => {
+    const scoreObj = { ...player, score: Number(typedScore) };
+    console.log(typedScore);
     setScore([...score, scoreObj]);
   };
 
@@ -64,7 +79,7 @@ function Player({ player, setScore, score, isGameOver }) {
   };
 
   return (
-    <div className="flex justify-start flex-col items-center    flex-grow w-screen h-1/5">
+    <div className="flex justify-start flex-col items-center    flex-grow w-screen h-1/4">
       <div className="p-1 px-3 w-full flex-grow flex flex-row justify-center items-center ">
         <div className="w-full  gap-4 bg-base-100  shadow-lg rounded-3xl  justify-center items-center   h-full flex ">
           <div className="  w-1/3 flex h-full flex-col justify-center items-center">
@@ -73,23 +88,44 @@ function Player({ player, setScore, score, isGameOver }) {
               {score.length > 0 && calcScore(score)}
             </div>
           </div>
-          <div className=" w-2/3 h-full flex-col flex justify-center items-center gap-2  relative ">
-            <div className=" btn-group">
-              <button
-                disabled={isGameOver}
-                onClick={() => handleScoreChange(1)}
-                className="btn btn-primary btn-lg h-20 w-24"
-              >
-                + 1
-              </button>
-              <button
-                disabled={isGameOver}
-                className="btn btn-primary btn-lg h-20 w-24"
-                onClick={() => handleScoreChange(2)}
-              >
-                + 2
-              </button>
-            </div>
+          <div className=" w-2/3 h-full flex-col flex flex-wrap justify-center items-center gap-2  relative ">
+            {showPegging ? (
+              <div className=" btn-group">
+                <button
+                  disabled={isGameOver}
+                  onClick={() => handleScoreChange(1)}
+                  className="btn btn-primary btn-lg h-20 w-24"
+                >
+                  + 1
+                </button>
+                <button
+                  disabled={isGameOver}
+                  className="btn btn-primary btn-lg h-20 w-24"
+                  onClick={() => handleScoreChange(2)}
+                >
+                  + 2
+                </button>
+              </div>
+            ) : (
+              <div className="pr-4">
+                <div className="form-control">
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      placeholder="Search…"
+                      onChange={(e) => setTypedScore(e.target.value)}
+                      className="input input-primary input-bordered input-group-lg w-32"
+                    />
+                    <button
+                      onClick={handleTypedScoreChange}
+                      className="btn btn-primary "
+                    >
+                      Enter
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -97,7 +133,7 @@ function Player({ player, setScore, score, isGameOver }) {
   );
 }
 
-function ScoreBoard({ players, score, setScore }) {
+function ScoreBoard({ players, score, setScore, setShowPegging, showPegging }) {
   const undo = () => {
     if (score.length > players.length) {
       setScore((prevScore) => {
@@ -109,20 +145,26 @@ function ScoreBoard({ players, score, setScore }) {
   };
 
   return (
-    <div className="border-2 h-64 overflow-y-scroll">
-      <button
+    <div className="border-2 p-2 h-64 overflow-y-scroll">
+      {/* <button
         className=" w-10 bg-green-600 border-none transition-all duration-150 rounded-sm text-white hover:bg-green-800 h-10"
         onClick={undo}
       >
         undo
+      </button> */}
+      <button
+        className="btn btn-sm btn-outline"
+        onClick={() => setShowPegging(!showPegging)}
+      >
+        Switch View
       </button>
       {score
         .slice(3)
         .slice(0)
         .reverse()
-        .map((sc) => {
+        .map((sc, idx) => {
           return (
-            <div className="w-full py-2 text-center">
+            <div key={idx} className="w-full py-2 text-center">
               {sc.name}: <span className="font-black">+ {sc.score}</span>
             </div>
           );
