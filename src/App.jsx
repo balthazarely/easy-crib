@@ -112,6 +112,7 @@ function Player({ player, setScore, score, isGameOver, showPegging }) {
                   <div className="input-group">
                     <input
                       type="text"
+                      inputmode="numeric"
                       placeholder="Search…"
                       onChange={(e) => setTypedScore(e.target.value)}
                       className="input input-primary input-bordered input-group-lg w-32"
@@ -145,7 +146,7 @@ function ScoreBoard({ players, score, setScore, setShowPegging, showPegging }) {
   };
 
   return (
-    <div className="border-2 p-2 h-64 overflow-y-scroll">
+    <div className=" p-2 h-64 overflow-y-scroll">
       {/* <button
         className=" w-10 bg-green-600 border-none transition-all duration-150 rounded-sm text-white hover:bg-green-800 h-10"
         onClick={undo}
