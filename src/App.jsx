@@ -64,6 +64,7 @@ function App() {
     ];
     setScore(resetScore);
     setNewGameGameSetupModalOpen(false);
+    setIsGameOver(false);
     localStorage.setItem("easycrib-score", JSON.stringify(resetScore));
   };
 
