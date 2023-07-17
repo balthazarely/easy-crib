@@ -31,7 +31,7 @@ export default function PreferencesModal({
               onClick={() => handleToggleThirdPlayer(false)}
               className="btn bg-primary"
             >
-              2 Players
+              2 / 4 Players
             </button>
             <button
               onClick={() => handleToggleThirdPlayer(true)}
